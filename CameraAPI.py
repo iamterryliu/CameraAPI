@@ -6,10 +6,10 @@ from threading import Thread
 
 
 def usage():
-    print('Usage:')
-    print('Default password is empty.')
-    print('python CameraAPI.py [URL] [username] ')
-    print('\nExample: $ python CameraAPI.py http://192.168.1.1/adm username \n')
+    logger.debug('Usage:')
+    logger.debug('Default password is empty.')
+    logger.debug('python CameraAPI.py [URL] [username] ')
+    logger.debug('\nExample: $ python CameraAPI.py http://192.168.1.1/adm username \n')
     return
 
 
@@ -19,9 +19,9 @@ def basic_auth(host, username, password=''):
         base64string = base64.encodestring('%s:%s' % (username, password))[:-1]
         request.add_header("Authorization", "Basic %s" % base64string)
         result = urllib2.urlopen(request)
-        print(result.read())
+        logger.debug(result.read())
     except urllib2.URLError, e:
-        print(e.reason)
+        logger.debug(e.reason)
         pass
 
 
@@ -31,12 +31,12 @@ def main():
         username = sys.argv[2]
         # password = sys.argv[-1]
 
-        # print('m_host=' + m_host)
-        # print('username=' + username)
-        # print('password=' + password)
+        # logger.debug('m_host=' + m_host)
+        # logger.debug('username=' + username)
+        # logger.debug('password=' + password)
 
         if len(username) == 0:
-            print('The username cannot not empty.')
+            logger.debug('The username cannot not empty.')
             exit()
 
         thread = Thread(target=basic_auth, args=(m_host, username,))

@@ -1,0 +1,18 @@
+isDisabled,ProgramCommand,Argument,TakeANap,FAIL_Condition
+,CameraAPI.exe,http://192.168.1.3/adm/reset_to_default.cgi administrator,60,
+,ClickOvuAPP.exe,,10,
+,CheckUpgradeMesage.exe,,5,
+,RemoveCamera.exe,,5,
+,CloseAPP.exe,,5,
+,ClickOvuAPP.exe,,5,
+,CheckUpgradeMesage.exe,,5,
+,CheckCameraExist.exe,,5,NOT_EXIST
+,AddCamera_DBC831v2.exe,,5,
+,AddCamera_WiFi.exe,,60,
+,AddCamera_QRCode.exe,,60,
+,CloseAPP.exe,,5,
+,ClickOvuAPP.exe,,10,
+,CheckCameraExist.exe,,5,EXIST
+,RemoveCamera.exe,,5,
+,CloseAPP.exe,,5,
+,CameraAPI.exe,http://192.168.1.3/adm/reset_to_default.cgi administrator,60,
