@@ -64,63 +64,68 @@ def usage():
 
 
 def main():
-    logger.debug("len=" + str(len(sys.argv)))
-    if len(sys.argv) == 4:
-        command_folder_name = str(sys.argv[1])
-        csv_file_name = str(sys.argv[2])
-        test_count = str(sys.argv[3])
+    try:
+        logger.debug("len=" + str(len(sys.argv)))
+        if len(sys.argv) == 4:
+            command_folder_name = str(sys.argv[1])
+            csv_file_name = str(sys.argv[2])
+            test_count = str(sys.argv[3])
 
-        command_folder_name = os.getcwd() + '/' + command_folder_name
-        if not os.path.exists(command_folder_name):
-            logger.debug("\'%s\' folder not found." % (command_folder_name))
-            exit()
+            command_folder_name = os.getcwd() + '/' + command_folder_name
+            if not os.path.exists(command_folder_name):
+                logger.debug("\'%s\' folder not found." % (command_folder_name))
+                exit()
 
-        csv_file_name = os.getcwd() + '/' + csv_file_name
-        if not os.path.isfile(csv_file_name):
-            logger.debug("\'%s\' file not found." % (csv_file_name))
-            exit()
+            csv_file_name = os.getcwd() + '/' + csv_file_name
+            if not os.path.isfile(csv_file_name):
+                logger.debug("\'%s\' file not found." % (csv_file_name))
+                exit()
 
-        count_num = 100
-        if test_count.isdigit():
-            count_num = int(str(test_count))
+            count_num = 100
+            if test_count.isdigit():
+                count_num = int(str(test_count))
 
-        logger.debug("CSV File: " + csv_file_name)
+            logger.debug("CSV File: " + csv_file_name)
 
-        i = 1
-        is_fail = False
-        while i <= count_num:
-            with open(csv_file_name) as csv_file:
-                rows = csv.DictReader(csv_file)
-                for row in rows:
-                    if len(str(row['isDisabled']).strip()) == 0:
-                        command = str(row['ProgramCommand']).strip() + ' ' + str(row['Argument']).strip()
-                        command = command_folder_name + '/' + command
-                        logger.debug("Command: " + command)
-                        p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
+            i = 1
+            is_fail = False
+            while i <= count_num:
+                with open(csv_file_name) as csv_file:
+                    rows = csv.DictReader(csv_file)
+                    for row in rows:
+                        if len(str(row['isDisabled']).strip()) == 0:
+                            command = str(row['ProgramCommand']).strip() + ' ' + str(row['Argument']).strip()
+                            command = command_folder_name + '/' + command
+                            logger.debug("Command: " + command)
+                            p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
 
-                        for line in p.stdout.readlines():
-                            line = line.strip()
-                            logger.debug("return_message:" + line)
-                            if len(str(row['PASS_Condition']).strip()) > 0:
-                                pass
+                            for line in p.stdout.readlines():
+                                line = line.strip()
+                                logger.debug("return_message:" + line)
+                                if len(str(row['PASS_Condition']).strip()) > 0:
+                                    pass
 
-                        if is_fail:
-                            break
+                            if is_fail:
+                                break
 
-                        if len(str(row['TakeANap']).strip()) > 0:
-                            logger.debug("Take a nap: " + str(row['TakeANap']).strip() + 's')
-                            time.sleep(int(str(row['TakeANap']).strip()))
+                            if len(str(row['TakeANap']).strip()) > 0:
+                                logger.debug("Take a nap: " + str(row['TakeANap']).strip() + 's')
+                                time.sleep(int(str(row['TakeANap']).strip()))
 
-                csv_file.close()
-                logger.debug("Test count: " + str(i))
-                logger.debug("==================================================")
-                i += 1
+                    csv_file.close()
+                    logger.debug("Test count: " + str(i))
+                    logger.debug("==================================================")
+                    i += 1
 
-            if is_fail:
-                break
+                if is_fail:
+                    break
 
-    else:
-        usage()
+        else:
+            usage()
+    except KeyboardInterrupt:
+        pass
+    except Exception as e:
+        logger.error("An exception occurred:" + str(e))
 
 
 if __name__ == '__main__':
