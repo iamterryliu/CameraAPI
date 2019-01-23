@@ -22,7 +22,8 @@ def basic_auth(host, username, password=''):
         result = urllib2.urlopen(request)
         print(result.read())
     except urllib2.URLError, e:
-        print(e.reason)
+        pass
+    except Exception as e:
         pass
 
 
@@ -35,10 +36,12 @@ def main():
             print('The username cannot not empty.')
             exit()
 
-        thread = Thread(target=basic_auth, args=(m_host, username,))
-        thread.start()
-        thread.join()
-
+        try:
+            thread = Thread(target=basic_auth, args=(m_host, username,))
+            thread.start()
+            thread.join()
+        except Exception as e:
+            pass
     else:
         usage()
 
