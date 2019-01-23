@@ -24,9 +24,6 @@ def basic_auth(host, username, password=''):
     except urllib2.URLError:
         print("An exception occurred from urllib2.URLError.")
         pass
-    except Exception:
-        print("An exception occurred from Exception.")
-        pass
 
 
 def main():
@@ -42,7 +39,8 @@ def main():
             thread = Thread(target=basic_auth, args=(m_host, username,))
             thread.start()
             thread.join()
-        except Exception as e:
+        except Exception:
+            print("An exception occurred from Exception.")
             pass
     else:
         usage()
