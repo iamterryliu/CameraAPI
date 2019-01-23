@@ -22,8 +22,10 @@ def basic_auth(host, username, password=''):
         result = urllib2.urlopen(request)
         print("PASS: " + result.read())
     except urllib2.URLError:
+        print("An exception occurred from urllib2.URLError.")
         pass
     except Exception:
+        print("An exception occurred from Exception.")
         pass
 
 
