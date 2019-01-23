@@ -20,7 +20,7 @@ def basic_auth(host, username, password=''):
         base64string = base64.encodestring('%s:%s' % (username, password))[:-1]
         request.add_header("Authorization", "Basic %s" % base64string)
         result = urllib2.urlopen(request)
-        print(result.read())
+        print("PASS: " + result.read())
     except urllib2.URLError, e:
         pass
     except Exception as e:
